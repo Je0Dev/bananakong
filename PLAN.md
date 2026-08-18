@@ -5,6 +5,15 @@ Work is on branch `feat/gameplay-overhaul`, one commit per feature. No merge to
 then the implementations that make them pass. Intermediate commits may not be
 green; build + tests must be green before merge.
 
+## Workflow rule (always)
+
+- Implement **one feature at a time**: finish it (test + code + verify) before
+  starting the next one.
+- **Test first**: write the unit test, see it fail, then implement the feature
+  until the test passes.
+- Verify each feature: build clean, `ctest` green, headless run, `wc -l` <= 120.
+- Commit each feature on its own, then move on.
+
 ## 8. Kenney sprite + sound integration (done)
 - [x] Copy CC0 Kenney "New Platformer" sprites and sounds into `assets/`
 - [x] `src/core/assets.c/.h` registry: load/unload textures + sounds, `assets_play`

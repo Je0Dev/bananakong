@@ -18,6 +18,8 @@ here via `DISPLAY=:0`. `gh` is authenticated to `Je0Dev/bananakong`.
   `test/`, `fix/`, `docs/`, `chore/`), merged with `--no-ff`.
 - **Do not merge to or push `main` unless the user explicitly says "merge".**
   Otherwise push the branch and leave it for the user to approve.
+- **One feature at a time**: test first (write test, see it fail, implement
+  until green), then verify build + tests, then commit and move on.
 - Conventional Commits; update `CHANGELOG.md` (Unreleased) with each push.
 - Files ≤ 100–120 lines; no monolithic functions; no `TODO`; comment *why*;
   zero `-Wall -Wextra` warnings; build + tests green before merge.
