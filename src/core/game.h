@@ -5,11 +5,14 @@
 #include "level.h"
 #include "player.h"
 #include "barrel.h"
+#include "difficulty.h"
+#include "popup.h"
 
 /* Top-level game screens the state machine can be in. */
 typedef enum GameState {
     GS_TITLE,    /* title screen, waiting for Enter */
     GS_PLAYING,  /* active gameplay */
+    GS_PAUSED,   /* gameplay halted, P resumes */
     GS_GAMEOVER, /* player ran out of lives */
     GS_WIN       /* player reached the golden flag */
 } GameState;
@@ -20,8 +23,11 @@ typedef struct Game {
     Level level;
     Player player;
     Barrel barrels[MAX_BARRELS];
+    Popup popups[MAX_POPUPS];
+    Difficulty diff;    /* current difficulty, scaled from the score */
     float spawn_timer;  /* countdown until the next barrel spawns */
     int score;
+    int best;           /* all-time best score, loaded from disk */
     float screen_timer; /* time on the current screen, drives blinking */
 } Game;
 

@@ -21,6 +21,20 @@
 #define BARREL_SPEED 70.0f
 #define BARREL_SPAWN_INTERVAL 1.8f
 
+/* Difficulty ramp: barrels get faster and more frequent as the score grows. */
+#define DIFFICULTY_START_SPEED 70.0f
+#define DIFFICULTY_MAX_SPEED 150.0f
+#define DIFFICULTY_MAX_INTERVAL 1.8f
+#define DIFFICULTY_MIN_INTERVAL 0.6f
+#define DIFFICULTY_RAMP_SCORE 4000
+
+/* Floating score popups: rise and fade out over their lifetime. */
+#define MAX_POPUPS 8
+#define POPUP_LIFETIME 0.9f
+#define POPUP_RISE 30.0f
+
+#define HIGHSCORE_FILE "bananakong_highscore.txt"
+
 #define START_LIVES 3
 
 #endif
