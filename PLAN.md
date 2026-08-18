@@ -5,6 +5,14 @@ Work is on branch `feat/gameplay-overhaul`, one commit per feature. No merge to
 then the implementations that make them pass. Intermediate commits may not be
 green; build + tests must be green before merge.
 
+## 8. Kenney sprite + sound integration (done)
+- [x] Copy CC0 Kenney "New Platformer" sprites and sounds into `assets/`
+- [x] `src/core/assets.c/.h` registry: load/unload textures + sounds, `assets_play`
+- [x] Sprite rendering: `level_draw` (background/grass/ladder/flag), `player_draw`
+      (idle/walk/jump/climb/hit + facing flip), `barrel_draw` (bomb sprite)
+- [x] Sound wiring: jump, throw, coin, hurt, select, gem; audio init in `main.c`
+- [x] README Assets section + Kenney credit, CHANGELOG entries, screenshots regenerated
+
 ## 1. Tests first (scaffolding + new suites)
 - [ ] `CMakeLists.txt`: add `difficulty.c`, `popup.c`, `highscore.c`, `level.c` to the
       test target (headers/sources listed as they are created)

@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "constants.h"
+#include "assets.h"
 
 /* Layout metadata: player spawn point and the golden flag goal tile. */
 typedef struct Level {
@@ -32,6 +33,6 @@ bool level_solid_at_rect(Rectangle r);
 bool level_ladder_at_rect(Rectangle r);
 
 /* Render the background and every tile of the level grid. */
-void level_draw(void);
+void level_draw(const Assets *a);
 
 #endif

@@ -56,11 +56,7 @@ void barrel_update(Barrel *b, float dt) {
     }
 }
 
-void barrel_draw(const Barrel *b) {
-    float cx = b->rect.x + b->rect.width / 2.0f;
-    float cy = b->rect.y + b->rect.height / 2.0f;
-    DrawCircle(cx, cy, b->rect.width / 2.0f, (Color){168, 105, 40, 255});
-    DrawCircle(cx, cy, b->rect.width / 2.0f - 3.0f, (Color){140, 82, 32, 255});
-    DrawLine(cx - 5.0f, cy, cx + 5.0f, cy, (Color){100, 60, 20, 255});
-    DrawCircle(cx, cy, b->rect.width / 2.0f - 6.0f, (Color){120, 72, 28, 255});
+void barrel_draw(const Barrel *b, const Assets *a) {
+    float scale = b->rect.width / (float)a->bomb.width;
+    DrawTextureEx(a->bomb, (Vector2){ b->rect.x, b->rect.y }, 0.0f, scale, WHITE);
 }

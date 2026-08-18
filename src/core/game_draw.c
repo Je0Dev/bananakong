@@ -43,11 +43,11 @@ void game_draw(const Game *g) {
         return;
     }
 
-    level_draw();
+    level_draw(&g->assets);
     for (int i = 0; i < MAX_BARRELS; i++) {
-        if (g->barrels[i].active) barrel_draw(&g->barrels[i]);
+        if (g->barrels[i].active) barrel_draw(&g->barrels[i], &g->assets);
     }
-    player_draw(&g->player);
+    player_draw(&g->player, &g->assets);
     popup_draw(g->popups, MAX_POPUPS);
     game_draw_hud(g);
 
