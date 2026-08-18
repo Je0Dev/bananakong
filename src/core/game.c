@@ -5,19 +5,30 @@
 #include "scoring.h"
 
 static void game_reset(Game *g) {
-    level_init(&g->level);
+    g->level_index = 1;
+    g->run_seed = (unsigned)GetRandomValue(1, 2000000000);
+    level_init(&g->level, g->level_index, g->run_seed);
     g->player.lives = START_LIVES;
-    player_reset(&g->player, g->level.spawn);
+    g->spawn_right = false; /* fresh run starts bottom-left */
+    player_reset(&g->player, g->level.spawn_left);
+    kong_init(&g->kong);
     for (int i = 0; i < MAX_BARRELS; i++) g->barrels[i].active = false;
     for (int i = 0; i < MAX_POPUPS; i++) g->popups[i].active = false;
-    g->spawn_timer = 1.0f;
     g->score = 0;
-    g->diff = difficulty_for_score(0);
+    g->level_elapsed = 0.0f;
+    g->level_stomps = 0;
+    g->level_clear_time = 0.0f;
+    g->score_flash = 0.0f;
+    g->new_best = false;
+    g->level_intro_timer = LEVEL_INTRO_TIME;
+    g->diff = difficulty_for_state(1, 0.0f, 0, 0);
     g->state = GS_PLAYING;
 }
 
 void game_init(Game *g) {
-    level_init(&g->level);
+    g->level_index = 1;
+    g->run_seed = (unsigned)GetRandomValue(1, 2000000000);
+    level_init(&g->level, g->level_index, g->run_seed);
     g->state = GS_TITLE;
     g->screen_timer = 0.0f;
     g->best = highscore_load(HIGHSCORE_FILE);
@@ -29,39 +40,27 @@ static void game_check_goal(Game *g) {
     int goal_col = physics_tile_col(g->level.goal.x, TILE_SIZE);
     int goal_row = physics_tile_row(g->level.goal.y, TILE_SIZE);
     if (center_col == goal_col && feet_row == goal_row) {
+        g->level_clear_time = g->level_elapsed;
         scoring_player_win(g);
         assets_play(&g->assets, SND_GEM);
     }
 }
 
-static void game_check_barrel_hit(Game *g) {
-    if (g->player.invuln_timer > 0.0f) return;
-    for (int i = 0; i < MAX_BARRELS; i++) {
-        if (!g->barrels[i].active) continue;
-        if (physics_aabb_overlap(g->player.rect, g->barrels[i].rect)) {
-            g->player.lives--;
-            g->player.invuln_timer = 1.0f;
-            assets_play(&g->assets, SND_HURT);
-            if (g->player.lives <= 0) {
-                scoring_game_over(g);
-            } else {
-                player_reset(&g->player, g->level.spawn);
-            }
-            break;
-        }
-    }
-}
-
 static void game_update_playing(Game *g, float dt) {
+    g->level_elapsed += dt;
+    if (g->level_intro_timer > 0.0f) g->level_intro_timer -= dt;
+    if (g->score_flash > 0.0f) g->score_flash -= dt;
     player_update(&g->player, dt, &g->assets);
     game_check_goal(g);
     if (g->state == GS_WIN) return;
 
-    /* Difficulty follows the score, so the ramp updates as points are earned. */
-    g->diff = difficulty_for_score(g->score);
-    g->spawn_timer -= dt;
-    if (g->spawn_timer <= 0.0f) {
-        g->spawn_timer = g->diff.spawn_interval;
+    /* Difficulty blends the level/performance baseline with the score ramp,
+     * so each level is tighter and great play makes the next one tighter. */
+    g->diff = difficulty_for_state(g->level_index, g->level_clear_time, g->level_stomps, g->score);
+    kong_update(&g->kong, dt);
+    if (g->kong.throw_timer <= 0.0f) {
+        g->kong.throw_timer = g->diff.spawn_interval;
+        g->kong.recoil_timer = KONG_RECOIL_TIME;
         game_spawn_barrel(g);
     }
 
@@ -91,12 +90,18 @@ void game_update(Game *g, float dt) {
             if (IsKeyPressed(KEY_P)) g->state = GS_PLAYING;
             break;
 
-        /* Both end screens restart the run on Enter. */
+        /* The win screen advances to the next level; game over restarts. */
         case GS_GAMEOVER:
-        case GS_WIN:
             if (IsKeyPressed(KEY_ENTER)) {
                 assets_play(&g->assets, SND_SELECT);
                 game_reset(g);
+            }
+            break;
+
+        case GS_WIN:
+            if (IsKeyPressed(KEY_ENTER)) {
+                assets_play(&g->assets, SND_SELECT);
+                game_start_level(g);
             }
             break;
     }

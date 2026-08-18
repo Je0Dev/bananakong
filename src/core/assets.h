@@ -33,6 +33,8 @@ typedef struct Assets {
     Texture2D flag_b;
     Texture2D background;
     Texture2D bomb;
+    Texture2D ui_panel_light;
+    Texture2D ui_panel_dark;
     Sound sounds[SND_COUNT];
 } Assets;
 

@@ -5,17 +5,22 @@
 #include "constants.h"
 #include "assets.h"
 
-/* Layout metadata: player spawn point and the golden flag goal tile. */
+/* Layout metadata: player spawn points and the golden flag goal tile. */
 typedef struct Level {
-    Vector2 spawn;
+    Vector2 spawn_left;   /* player starts bottom-left */
+    Vector2 spawn_right;  /* alternate spawn, bottom-right */
     Vector2 goal;
 } Level;
 
-/* Fill a Level with spawn/goal positions for the fixed grid map. */
-void level_init(Level *level);
+/* Fill a Level with spawn/goal positions for a procedurally generated grid.
+ * `seed` selects the layout, `level_index` scales the number of platforms. */
+void level_init(Level *level, int level_index, unsigned seed);
 
 /* Character at a grid tile; '.' for anything outside the grid. */
 char level_tile_at(int col, int row);
+
+/* Raw grid row string (GRID_COLS chars) for layout validation; NULL if OOB. */
+const char *level_row(int row);
 
 /* True if the tile is solid (platform '#' or goal 'G'). */
 bool level_is_solid(int col, int row);

@@ -22,4 +22,7 @@ int physics_tile_row(float y, float tile);
 /* True if two axis-aligned rectangles overlap (strict edge touching). */
 bool physics_aabb_overlap(Rectangle a, Rectangle b);
 
+/* True if a falling player (vy > 0) lands on the barrel's top half. */
+bool physics_stomp_hit(Rectangle player, Rectangle barrel, float vy);
+
 #endif

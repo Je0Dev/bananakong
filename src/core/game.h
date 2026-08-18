@@ -5,6 +5,7 @@
 #include "level.h"
 #include "player.h"
 #include "barrel.h"
+#include "kong.h"
 #include "difficulty.h"
 #include "popup.h"
 #include "assets.h"
@@ -24,10 +25,19 @@ typedef struct Game {
     Assets assets;   /* sprites and sounds, loaded once at startup */
     Level level;
     Player player;
+    Kong kong;
     Barrel barrels[MAX_BARRELS];
     Popup popups[MAX_POPUPS];
     Difficulty diff;    /* current difficulty, scaled from the score */
-    float spawn_timer;  /* countdown until the next barrel spawns */
+    bool spawn_right;   /* next respawn goes to the right spawn point */
+    int level_index;    /* current level number, starts at 1 */
+    unsigned run_seed;  /* seeds this run's procedural level generation */
+    float level_elapsed;   /* seconds spent on the current level */
+    int level_stomps;      /* barrels smashed on the current level */
+    float level_clear_time; /* level_elapsed recorded when the goal was hit */
+    float level_intro_timer; /* shows the "LEVEL N" card on each new level */
+    float score_flash;      /* pulses the HUD score while it is above zero */
+    bool new_best;          /* set when a run beats the saved best score */
     int score;
     int best;           /* all-time best score, loaded from disk */
     float screen_timer; /* time on the current screen, drives blinking */
@@ -39,9 +49,15 @@ void game_init(Game *g);
 /* Advance the current screen (input, physics, state transitions). */
 void game_update(Game *g, float dt);
 
-/* Spawn a barrel from the top platform and update all barrels, scoring pops. */
+/* Spawn a barrel from the top platform, update all barrels, and resolve
+ * player/barrel collisions (hits and stomps). */
 void game_spawn_barrel(Game *g);
 void game_update_barrels(Game *g, float dt);
+void game_check_barrel_hit(Game *g);
+
+/* Move to the next level after a win: keep score/lives/best, bump the level
+ * index, generate the next seed, and respawn the player. */
+void game_start_level(Game *g);
 
 /* Render everything for the current screen. */
 void game_draw(const Game *g);

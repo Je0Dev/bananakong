@@ -26,3 +26,16 @@
 	• Twitter:	 twitter.com/KenneyNL
 	• BlueSky:	 kenney.bsky.social
 	• Instagram:	 instagram.com/kenney_nl
+
+
+	UI Pack - Pixel Adventure (2.0)
+
+	Created/distributed by Kenney (www.kenney.nl)
+	Creation date: 04/09/2024
+
+	License: (Creative Commons Zero, CC0)
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+	Assets used from this pack: assets/ui/panel_light.png,
+	assets/ui/panel_dark.png (tiles 0000 and 0006 of the large, thin
+	outline tiles).

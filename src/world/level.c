@@ -1,52 +1,33 @@
 #include "level.h"
 #include "physics.h"
+#include "level_gen.h"
+#include <stddef.h>
 
-/* Level grid. Each row is GRID_COLS chars.
- * '#' platform (solid), 'L' ladder (climbable), 'G' goal, '.' empty. */
-static const char TILES[GRID_ROWS][GRID_COLS + 1] = {
-    "........................................",
-    "........................................",
-    "........................................",
-    "........................................",
-    "........................................",
-    "........................................",
-    "###G######################..............",
-    "..........L.........L...................",
-    "..........L.........L...................",
-    "..........L.........L...................",
-    "..........L.........L...................",
-    "..........L.........L...................",
-    "..........L.........L...................",
-    "......##################################",
-    ".........L.................L............",
-    ".........L.................L............",
-    ".........L.................L............",
-    ".........L.................L............",
-    ".........L.................L............",
-    ".........L.................L............",
-    "##################################......",
-    "...L..............L.....................",
-    "...L..............L.....................",
-    "...L..............L.....................",
-    "...L..............L.....................",
-    "...L..............L.....................",
-    "...L..............L.....................",
-    "...L..............L.....................",
-    "...L..............L.....................",
-    "########################################",
-};
-
-static const Vector2 SPAWN = { 5.0f * TILE_SIZE, (GRID_ROWS - 1) * TILE_SIZE - PLAYER_HEIGHT };
-static const Vector2 GOAL = { 3.0f * TILE_SIZE, 6.0f * TILE_SIZE };
+/* Current generated grid; rebuilt by level_init each time. */
+static char grid[GRID_ROWS][GRID_COLS + 1];
 
 char level_tile_at(int col, int row) {
     if (col < 0 || col >= GRID_COLS || row < 0 || row >= GRID_ROWS) return '.';
-    return TILES[row][col];
+    return grid[row][col];
 }
 
-void level_init(Level *level) {
-    level->spawn = SPAWN;
-    level->goal = GOAL;
+const char *level_row(int row) {
+    if (row < 0 || row >= GRID_ROWS) return NULL;
+    return grid[row];
+}
+
+static int level_goal_col(void) {
+    for (int col = 0; col < GRID_COLS; col++) {
+        if (grid[KONG_PLATFORM_ROW][col] == 'G') return col;
+    }
+    return 3;
+}
+
+void level_init(Level *level, int level_index, unsigned seed) {
+    level_gen_fill(seed, level_index, grid);
+    level->spawn_left = (Vector2){ 5.0f * TILE_SIZE, (GRID_ROWS - 2) * TILE_SIZE - PLAYER_HEIGHT };
+    level->spawn_right = (Vector2){ 34.0f * TILE_SIZE, (GRID_ROWS - 2) * TILE_SIZE - PLAYER_HEIGHT };
+    level->goal = (Vector2){ (float)(level_goal_col() * TILE_SIZE), (float)(KONG_PLATFORM_ROW * TILE_SIZE) };
 }
 
 bool level_is_solid(int col, int row) {

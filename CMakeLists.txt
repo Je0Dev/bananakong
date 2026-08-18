@@ -51,17 +51,24 @@ add_executable(bananakong
     src/core/game.c
     src/core/game_barrels.c
     src/core/game_draw.c
+    src/core/game_levels.c
+    src/core/hud_draw.c
     src/core/physics.c
     src/core/difficulty.c
     src/core/highscore.c
     src/core/popup.c
     src/core/scoring.c
+    src/core/ui_draw.c
     src/entities/barrel.c
+    src/entities/barrel_draw.c
+    src/entities/kong.c
+    src/entities/kong_draw.c
     src/entities/player.c
     src/entities/player_climb.c
     src/entities/player_draw.c
     src/world/level.c
     src/world/level_draw.c
+    src/world/level_gen.c
 )
 target_include_directories(bananakong PRIVATE ${INCLUDE_DIRS})
 target_link_libraries(bananakong PRIVATE ${RAYLIB_TARGET} m)
@@ -80,6 +87,7 @@ add_executable(test_bananakong
     src/core/highscore.c
     src/core/popup.c
     src/world/level.c
+    src/world/level_gen.c
 )
 target_include_directories(test_bananakong PRIVATE ${INCLUDE_DIRS} tests)
 target_link_libraries(test_bananakong PRIVATE ${RAYLIB_TARGET} m)

@@ -1,5 +1,12 @@
 # Contributing & Git workflow
 
+## Workflow rule: one feature at a time
+
+- Implement **one feature at a time**, finish it before starting the next.
+- **Test first**: write the unit test, see it fail, then implement until green.
+- Verify each feature (build clean, `ctest` green, headless run) before moving on.
+- Commit each feature on its own.
+
 ## Branching model
 
 - `main` is the protected default branch. **Never commit directly to it.**

@@ -36,9 +36,25 @@ static void test_aabb(void) {
     CHECK(!physics_aabb_overlap(a, far));
 }
 
+static void test_stomp_hit(void) {
+    /* Player falling fast with feet above the barrel's top half stomps it. */
+    Rectangle barrel = { 40.0f, 100.0f, 14.0f, 14.0f };
+    Rectangle falling = { 40.0f, 90.0f, 12.0f, 14.0f }; /* feet at 104, mid of barrel */
+    CHECK(physics_stomp_hit(falling, barrel, 120.0f));
+
+    /* Rising or stationary players are not stomping. */
+    CHECK(!physics_stomp_hit(falling, barrel, 0.0f));
+    CHECK(!physics_stomp_hit(falling, barrel, -120.0f));
+
+    /* Feet below the barrel's center means a side hit, not a stomp. */
+    Rectangle below_center = { 40.0f, 99.0f, 12.0f, 14.0f }; /* feet at 113 */
+    CHECK(!physics_stomp_hit(below_center, barrel, 120.0f));
+}
+
 void test_physics(void) {
     test_gravity();
     test_snap();
     test_tile_conversion();
     test_aabb();
+    test_stomp_hit();
 }
