@@ -100,4 +100,8 @@ matching `CHANGELOG.md` entry. A good summary answers:
 ## Code rules
 
 Read [CONSTRAINTS.md](CONSTRAINTS.md) before writing code. Reviews must not
-merge code that violates it (file size, monolithic functions, missing tests, TODO left).
+merge code that violates it (file size, monolithic functions, missing tests on
+important features, TODO left).
+
+Note: tests are for **really important features** (physics, scoring,
+persistence), not for everything implemented. Small glue helpers need no tests.

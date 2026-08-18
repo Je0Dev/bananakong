@@ -10,6 +10,11 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Detailed project description in the README.
 - Documentation comments across public headers and key game logic.
+- Pause with `P` and a pause overlay.
+- Score-based difficulty ramp: barrels spawn faster and roll faster.
+- Floating score popups when barrels leave the screen or the flag is reached.
+- Best score persisted to `bananakong_highscore.txt`, shown on title/game-over.
+- `difficulty`, `highscore`, `popup`, and `scoring` modules with unit tests.
 
 ## [0.1.0] - 2026-08-18
 
