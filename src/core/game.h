@@ -35,6 +35,9 @@ typedef struct Game {
     float level_elapsed;   /* seconds spent on the current level */
     int level_stomps;      /* barrels smashed on the current level */
     float level_clear_time; /* level_elapsed recorded when the goal was hit */
+    float level_intro_timer; /* shows the "LEVEL N" card on each new level */
+    float score_flash;      /* pulses the HUD score while it is above zero */
+    bool new_best;          /* set when a run beats the saved best score */
     int score;
     int best;           /* all-time best score, loaded from disk */
     float screen_timer; /* time on the current screen, drives blinking */

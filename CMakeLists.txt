@@ -51,6 +51,8 @@ add_executable(bananakong
     src/core/game.c
     src/core/game_barrels.c
     src/core/game_draw.c
+    src/core/game_levels.c
+    src/core/hud_draw.c
     src/core/physics.c
     src/core/difficulty.c
     src/core/highscore.c

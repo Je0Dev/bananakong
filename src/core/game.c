@@ -3,7 +3,6 @@
 #include "physics.h"
 #include "highscore.h"
 #include "scoring.h"
-#include "level_gen.h"
 
 static void game_reset(Game *g) {
     g->level_index = 1;
@@ -19,6 +18,9 @@ static void game_reset(Game *g) {
     g->level_elapsed = 0.0f;
     g->level_stomps = 0;
     g->level_clear_time = 0.0f;
+    g->score_flash = 0.0f;
+    g->new_best = false;
+    g->level_intro_timer = LEVEL_INTRO_TIME;
     g->diff = difficulty_for_state(1, 0.0f, 0, 0);
     g->state = GS_PLAYING;
 }
@@ -44,23 +46,10 @@ static void game_check_goal(Game *g) {
     }
 }
 
-void game_start_level(Game *g) {
-    g->level_index++;
-    g->run_seed = level_gen_next_seed(g->run_seed);
-    level_init(&g->level, g->level_index, g->run_seed);
-    g->spawn_right = false;
-    player_reset(&g->player, g->level.spawn_left);
-    kong_init(&g->kong);
-    for (int i = 0; i < MAX_BARRELS; i++) g->barrels[i].active = false;
-    for (int i = 0; i < MAX_POPUPS; i++) g->popups[i].active = false;
-    g->level_elapsed = 0.0f;
-    g->level_stomps = 0;
-    g->level_clear_time = 0.0f;
-    g->state = GS_PLAYING;
-}
-
 static void game_update_playing(Game *g, float dt) {
     g->level_elapsed += dt;
+    if (g->level_intro_timer > 0.0f) g->level_intro_timer -= dt;
+    if (g->score_flash > 0.0f) g->score_flash -= dt;
     player_update(&g->player, dt, &g->assets);
     game_check_goal(g);
     if (g->state == GS_WIN) return;

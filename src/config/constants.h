@@ -78,4 +78,8 @@
 
 #define START_LIVES 3
 
+/* HUD + screen-transition timing. */
+#define LEVEL_INTRO_TIME 1.2f
+#define HUD_FLASH_TIME 0.3f
+
 #endif

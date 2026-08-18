@@ -129,14 +129,14 @@ draw/helpers as needed).
       frames reused since the pack has no gorilla art.
 
 ### 9.6 Live HUD + UI/UX polish
-- [ ] HUD (`game_draw.c` → `hud_draw.c`): live score that pulses on change,
+- [x] HUD (`game_draw.c` → `hud_draw.c`): live score that pulses on change,
       lives, level badge, and an altitude/progress meter (floors climbed vs
       total).
-- [ ] Title screen: run seed line + controls hint; "NEW BEST!" banner when a
+- [x] Title screen: run seed line + controls hint; "NEW BEST!" banner when a
       run beats the saved high score.
-- [ ] Level intro card ("LEVEL N — climb to the flag!", Kenney panel,
+- [x] Level intro card ("LEVEL N — climb to the flag!", Kenney panel,
       auto-dismiss) on each new level.
 
 ### 9.7 Verify
-- [ ] 0 `-Wall -Wextra` warnings, `ctest` green (level-gen + difficulty
+- [x] 0 `-Wall -Wextra` warnings, `ctest` green (level-gen + difficulty
       suites), headless run, `wc -l` <= 120 on all files.

@@ -56,6 +56,12 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Kong animates: he cycles walk frames while pacing, pauses to turn at the
   platform edges, mirrors to face his walking direction, leans forward
   winding up a throw, and snaps back after releasing the barrel.
+- Livelier HUD (`hud_draw`): the live score flashes yellow when it changes, a
+  level badge sits top-right, and a climb meter shows progress toward the
+  goal; the title screen shows the run seed and a controls hint.
+- UI/UX: a "LEVEL N" intro card on each new level, a "NEW BEST!" banner when a
+  run beats the saved high score, and game-over/win overlays that report the
+  cleared level (`game_start_level` split into `game_levels.c`).
 
 ## [0.1.0] - 2026-08-18
 
