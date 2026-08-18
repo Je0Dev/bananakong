@@ -50,6 +50,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
   tighter, and clearing fast with plenty of stomps makes the next one
   slightly harder) and the existing score ramp on top (`difficulty_for_level`
   and `difficulty_for_state`, unit-tested).
+- Barrels animate: they spin like a rolling wheel on the ground (accumulated
+  roll angle), tumble along their velocity direction while arcing, and squash
+  at the top of a hop (`barrel_draw`).
 
 ## [0.1.0] - 2026-08-18
 

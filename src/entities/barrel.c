@@ -8,6 +8,7 @@ void barrel_spawn(Barrel *b, Vector2 pos, float vx) {
     b->vx = vx;
     b->vy = 0.0f;
     b->hop_time = 0.0f;
+    b->roll_angle = 0.0f;
     b->on_ground = true;
     b->flying = false;
     b->active = true;
@@ -18,6 +19,7 @@ void barrel_spawn_arc(Barrel *b, Vector2 pos, float vx, float vy) {
     b->vx = vx;
     b->vy = vy;
     b->hop_time = 0.0f;
+    b->roll_angle = 0.0f;
     b->on_ground = false;
     b->flying = true;
     b->active = true;
@@ -36,6 +38,8 @@ static void barrel_bounce_off_screen(Barrel *b) {
 
 static void barrel_move_horizontal(Barrel *b, float dt) {
     b->rect.x += b->vx * dt;
+    /* Spin matches the travel distance like a rolling wheel. */
+    b->roll_angle += (b->vx * dt / (b->rect.width / 2.0f)) * RAD2DEG;
     if (level_solid_at_rect(b->rect)) {
         b->rect.x -= b->vx * dt;
         b->vx = -b->vx;

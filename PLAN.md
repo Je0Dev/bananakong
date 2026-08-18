@@ -116,7 +116,7 @@ draw/helpers as needed).
       deterministic + clamped, extremes stable.
 
 ### 9.4 Cleaner barrel animation
-- [ ] `barrel_draw.c`: bomb sprite rolls via accumulated angle proportional to
+- [x] `barrel_draw.c`: bomb sprite rolls via accumulated angle proportional to
       speed (DrawTexturePro rotation); brief squash/stretch on hop-landing;
       tilt along the flight path while arcing. Testable angle helpers go in
       `physics.c` if needed.
