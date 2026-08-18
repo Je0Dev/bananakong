@@ -71,6 +71,7 @@ static void game_update_playing(Game *g, float dt) {
     kong_update(&g->kong, dt);
     if (g->kong.throw_timer <= 0.0f) {
         g->kong.throw_timer = g->diff.spawn_interval;
+        g->kong.recoil_timer = KONG_RECOIL_TIME;
         game_spawn_barrel(g);
     }
 

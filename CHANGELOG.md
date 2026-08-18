@@ -53,6 +53,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Barrels animate: they spin like a rolling wheel on the ground (accumulated
   roll angle), tumble along their velocity direction while arcing, and squash
   at the top of a hop (`barrel_draw`).
+- Kong animates: he cycles walk frames while pacing, pauses to turn at the
+  platform edges, mirrors to face his walking direction, leans forward
+  winding up a throw, and snaps back after releasing the barrel.
 
 ## [0.1.0] - 2026-08-18
 

@@ -122,9 +122,9 @@ draw/helpers as needed).
       `physics.c` if needed.
 
 ### 9.5 Kong walk / turn / throw animation
-- [ ] `kong.c`: `facing` + a throw phase. Walking cycles the player walk
+- [x] `kong.c`: `facing` + a throw phase. Walking cycles the player walk
       frames (tinted, scaled); the sprite mirrors when `patrol_dir` flips.
-- [ ] Throw anim: wind-up pose (forward tilt, barrel pulled back) during the
+- [x] Throw anim: wind-up pose (forward tilt, barrel pulled back) during the
       tail of `throw_timer`, release at spawn, snap-back after. Hero sprite
       frames reused since the pack has no gorilla art.
 

@@ -9,8 +9,10 @@ typedef struct Kong {
     Rectangle rect;     /* body box resting on the top platform */
     float throw_timer;  /* seconds until the next barrel throw */
     bool throw_left;    /* throw direction, alternated each throw */
-    float anim_timer;   /* accumulated time, drives the barrel bob */
+    float anim_timer;   /* accumulated time, drives walk frames and bob */
     float patrol_dir;   /* -1 or +1, Kong's walking direction */
+    float turn_timer;   /* pause at a platform edge while turning around */
+    float recoil_timer; /* set on a throw, draws Kong snapping back */
 } Kong;
 
 /* Place Kong on the top platform and arm the first throw. */

@@ -33,6 +33,8 @@
 #define KONG_WIDTH 80
 #define KONG_HEIGHT 80
 #define KONG_SPEED 40.0f
+#define KONG_TURN_TIME 0.35f   /* pause when reversing at a platform edge */
+#define KONG_RECOIL_TIME 0.18f /* throw snap-back after releasing a barrel */
 
 /* Difficulty ramp: barrels get faster and more frequent as the score grows. */
 #define DIFFICULTY_START_SPEED 70.0f
