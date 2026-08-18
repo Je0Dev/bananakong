@@ -50,7 +50,9 @@ These rules apply to every commit in this repository. Reviews must enforce them.
 
 ## Tests
 
-- Every non-trivial function needs unit tests.
+- Tests are required for **important features**: critical gameplay rules,
+  physics, scoring, and persistence. Not every function needs a test — small
+  glue helpers and trivial wrappers do not.
 - Put tests in `tests/`, registered in `CMakeLists.txt` and runnable via `ctest`.
 - Pure logic lives in testable modules (e.g. `core/physics.c`, `world/level.c`),
   separate from raylib input/render code.
