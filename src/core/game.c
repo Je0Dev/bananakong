@@ -5,7 +5,9 @@
 #include "scoring.h"
 
 static void game_reset(Game *g) {
-    level_init(&g->level);
+    g->level_index = 1;
+    g->run_seed = (unsigned)GetRandomValue(1, 2000000000);
+    level_init(&g->level, g->level_index, g->run_seed);
     g->player.lives = START_LIVES;
     g->spawn_right = false; /* fresh run starts bottom-left */
     player_reset(&g->player, g->level.spawn_left);
@@ -18,7 +20,9 @@ static void game_reset(Game *g) {
 }
 
 void game_init(Game *g) {
-    level_init(&g->level);
+    g->level_index = 1;
+    g->run_seed = (unsigned)GetRandomValue(1, 2000000000);
+    level_init(&g->level, g->level_index, g->run_seed);
     g->state = GS_TITLE;
     g->screen_timer = 0.0f;
     g->best = highscore_load(HIGHSCORE_FILE);

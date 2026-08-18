@@ -12,8 +12,9 @@ typedef struct Level {
     Vector2 goal;
 } Level;
 
-/* Fill a Level with spawn/goal positions for the fixed grid map. */
-void level_init(Level *level);
+/* Fill a Level with spawn/goal positions for a procedurally generated grid.
+ * `seed` selects the layout, `level_index` scales the number of platforms. */
+void level_init(Level *level, int level_index, unsigned seed);
 
 /* Character at a grid tile; '.' for anything outside the grid. */
 char level_tile_at(int col, int row);

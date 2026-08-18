@@ -38,6 +38,11 @@ project adheres to [Semantic Versioning](https://semver.org/).
   pause/game-over/win overlays, and a fading game backdrop behind the menus,
   drawn via a new `ui_draw` 9-slice helper (corner/border stay crisp at any
   size; `assets/ui/panel_light.png` and `panel_dark.png`).
+- Procedural level generation: each run builds a fresh zigzag-staircase level
+  from a random seed (`level_gen.c`, xorshift32, deterministic and testable);
+  the grid lives in `level.c` and `level_init` now takes a level index and
+  seed. Connectivity, no-floating-ladder, and determinism are covered by
+  seed-agnostic unit tests.
 
 ## [0.1.0] - 2026-08-18
 

@@ -30,6 +30,8 @@ typedef struct Game {
     Popup popups[MAX_POPUPS];
     Difficulty diff;    /* current difficulty, scaled from the score */
     bool spawn_right;   /* next respawn goes to the right spawn point */
+    int level_index;    /* current level number, starts at 1 */
+    unsigned run_seed;  /* seeds this run's procedural level generation */
     int score;
     int best;           /* all-time best score, loaded from disk */
     float screen_timer; /* time on the current screen, drives blinking */

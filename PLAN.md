@@ -73,3 +73,70 @@ green; build + tests must be green before merge.
 - [x] Update `CHANGELOG.md` (Unreleased)
 - [x] Verify: 0 `-Wall -Wextra` warnings, `ctest` green, `timeout 3 ./build/bananakong`,
       `wc -l` <= 120 on all files
+
+## 9. Polish pass — procedural levels, progression, animation, live HUD
+
+Polish and core-mechanics pass on top of the finished gameplay. Same workflow:
+one feature at a time, tests first, verify, commit. UI/UX uses the Kenney UI
+pack panels added in the previous step. Files stay <= 120 lines (split
+draw/helpers as needed).
+
+### 9.1 Procedural level generation (foundation)
+- [x] `src/world/level_gen.c/.h` (pure, testable): fills a caller grid buffer
+      from a deterministic seed (xorshift32, no raylib RNG so tests are
+      stable). Layout: full-width ground, Kong platform row 6 with the goal
+      tile, and 1-4 intermediate zigzag platforms; ladders connect
+      solid-to-solid (no floating stairs); platform widths vary by seed.
+- [x] `level.c`: replace the static `TILES` const with a mutable grid buffer;
+      `level_init(&level, level_index, seed)` fills it via `level_gen` and
+      derives `spawn_left`/`spawn_right`/`goal` from the generated grid.
+- [x] Rewrite `tests/test_level.c` generation-agnostic: for many seeds assert
+      row lengths, bounds safety, no floating ladders, both spawns + goal are
+      solid-anchored, BFS connectivity from both spawns to the goal, and that
+      the same seed reproduces the same grid.
+- [x] Each run seeds with `GetRandomValue` (done in `game.c`); showing the run
+      seed on the title screen is folded into the 9.6 UI/UX pass.
+
+### 9.2 Win → next level, harder each time
+- [ ] `Game.level_index` (starts 1). On goal: record `level_clear_time` and
+      `level_stomps` (level-scoped counters), +100 win score, `GS_WIN`
+      ("LEVEL N CLEAR!").
+- [ ] Enter on `GS_WIN` advances instead of restarting: `game_start_level(g)`
+      keeps score/lives/best, bumps `level_index`, generates the next seed,
+      respawns the player, clears barrels. Game over still resets the whole run.
+
+### 9.3 Performance-based difficulty
+- [ ] `difficulty.c`: new pure `difficulty_for_level(level_index, clear_time,
+      stomps)` — base ramp from level index plus a performance factor (faster
+      clear and more stomps make the next level slightly tighter: shorter
+      spawn interval, faster barrels), all clamped.
+- [ ] The in-level score ramp (`difficulty_for_score`) stays and scales on top
+      of the level baseline during play.
+- [ ] `tests/test_difficulty.c`: level index monotonic, performance factors
+      deterministic + clamped, extremes stable.
+
+### 9.4 Cleaner barrel animation
+- [ ] `barrel_draw.c`: bomb sprite rolls via accumulated angle proportional to
+      speed (DrawTexturePro rotation); brief squash/stretch on hop-landing;
+      tilt along the flight path while arcing. Testable angle helpers go in
+      `physics.c` if needed.
+
+### 9.5 Kong walk / turn / throw animation
+- [ ] `kong.c`: `facing` + a throw phase. Walking cycles the player walk
+      frames (tinted, scaled); the sprite mirrors when `patrol_dir` flips.
+- [ ] Throw anim: wind-up pose (forward tilt, barrel pulled back) during the
+      tail of `throw_timer`, release at spawn, snap-back after. Hero sprite
+      frames reused since the pack has no gorilla art.
+
+### 9.6 Live HUD + UI/UX polish
+- [ ] HUD (`game_draw.c` → `hud_draw.c`): live score that pulses on change,
+      lives, level badge, and an altitude/progress meter (floors climbed vs
+      total).
+- [ ] Title screen: run seed line + controls hint; "NEW BEST!" banner when a
+      run beats the saved high score.
+- [ ] Level intro card ("LEVEL N — climb to the flag!", Kenney panel,
+      auto-dismiss) on each new level.
+
+### 9.7 Verify
+- [ ] 0 `-Wall -Wextra` warnings, `ctest` green (level-gen + difficulty
+      suites), headless run, `wc -l` <= 120 on all files.
