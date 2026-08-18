@@ -1,11 +1,13 @@
 #include "barrel.h"
 #include "constants.h"
 #include "physics.h"
+#include <math.h>
 
 void barrel_spawn(Barrel *b, Vector2 pos, float vx) {
     b->rect = (Rectangle){ pos.x, pos.y, BARREL_SIZE, BARREL_SIZE };
     b->vx = vx;
     b->vy = 0.0f;
+    b->hop_time = 0.0f;
     b->on_ground = true;
     b->flying = false;
     b->active = true;
@@ -15,6 +17,7 @@ void barrel_spawn_arc(Barrel *b, Vector2 pos, float vx, float vy) {
     b->rect = (Rectangle){ pos.x, pos.y, BARREL_SIZE, BARREL_SIZE };
     b->vx = vx;
     b->vy = vy;
+    b->hop_time = 0.0f;
     b->on_ground = false;
     b->flying = true;
     b->active = true;
@@ -36,6 +39,7 @@ static void barrel_move_horizontal(Barrel *b, float dt) {
     if (level_solid_at_rect(b->rect)) {
         b->rect.x -= b->vx * dt;
         b->vx = -b->vx;
+        if (b->on_ground) b->hop_time = BARREL_HOP_TIME;
     }
     barrel_bounce_off_screen(b);
 }
@@ -53,6 +57,7 @@ static void barrel_try_take_ladder(Barrel *b, float dt) {
 }
 
 static void barrel_resolve_vertical(Barrel *b, float dt) {
+    float start_y = b->rect.y;
     b->vy = physics_gravity_step(b->vy, dt);
     b->rect.y += b->vy * dt;
 
@@ -62,6 +67,8 @@ static void barrel_resolve_vertical(Barrel *b, float dt) {
         b->rect.y = physics_snap_bottom(b->rect.y + b->rect.height, TILE_SIZE) - b->rect.height;
         b->vy = 0.0f;
         b->on_ground = true;
+        /* Dropping a full step lands with a little bounce. */
+        if (b->rect.y - start_y >= TILE_SIZE) b->hop_time = BARREL_HOP_TIME;
     } else if (b->vy < 0.0f) {
         b->rect.y = physics_snap_top(b->rect.y, TILE_SIZE);
         b->vy = 0.0f;
@@ -80,6 +87,7 @@ static void barrel_flying_update(Barrel *b, float dt) {
         b->rect.y = physics_snap_bottom(b->rect.y + b->rect.height, TILE_SIZE) - b->rect.height;
         b->vy = 0.0f;
         b->on_ground = true;
+        b->hop_time = BARREL_HOP_TIME; /* landing from a long arc bounces */
         b->flying = false; /* from here it rolls like any other barrel */
     }
     if (b->rect.x < -20.0f || b->rect.x > SCREEN_WIDTH + 20.0f || b->rect.y > SCREEN_HEIGHT + 20.0f) {
@@ -88,6 +96,7 @@ static void barrel_flying_update(Barrel *b, float dt) {
 }
 
 void barrel_update(Barrel *b, float dt) {
+    if (b->hop_time > 0.0f) b->hop_time -= dt;
     if (b->flying) {
         barrel_flying_update(b, dt);
         return;
@@ -99,9 +108,4 @@ void barrel_update(Barrel *b, float dt) {
     if (b->rect.x < -20.0f || b->rect.x > SCREEN_WIDTH + 20.0f || b->rect.y > SCREEN_HEIGHT + 20.0f) {
         b->active = false;
     }
-}
-
-void barrel_draw(const Barrel *b, const Assets *a) {
-    float scale = b->rect.width / (float)a->bomb.width;
-    DrawTextureEx(a->bomb, (Vector2){ b->rect.x, b->rect.y }, 0.0f, scale, WHITE);
 }

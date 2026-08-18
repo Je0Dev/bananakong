@@ -54,7 +54,7 @@ green; build + tests must be green before merge.
 ## 5. Gameplay features
 - [x] Stomp: land on a barrel from above to break it (+50), bounce, no life lost
       (`physics_stomp_hit` pure helper, unit-tested)
-- [ ] Barrels visibly hop when reversing or dropping a step (`BARREL_HOP`)
+- [x] Barrels visibly hop when reversing or dropping a step (`BARREL_HOP`)
 - [x] `core/difficulty.c/.h`: interval + speed ramp driven by score, wired into game
 - [x] `core/popup.c/.h`: floating +10/+50/+100 text that rises and fades, wired into game
 - [x] `core/highscore.c/.h`: persisted to `bananakong_highscore.txt`, shown on title and

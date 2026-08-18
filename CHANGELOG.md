@@ -31,6 +31,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Stomping a barrel from above smashes it (+50), bounces the player up, and
   costs no life (a falling feet-on-top contact is detected by a pure physics
   helper with unit tests).
+- Barrels hop visually when reversing off a wall or landing a full step down;
+  the hop is a short sine arc applied to the sprite (draw moved to
+  `barrel_draw.c` to respect the line limit).
 
 ## [0.1.0] - 2026-08-18
 

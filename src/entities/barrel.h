@@ -9,6 +9,7 @@
 typedef struct Barrel {
     Rectangle rect;    /* position and size on screen */
     float vx, vy;      /* current horizontal/vertical velocity */
+    float hop_time;    /* seconds left of a hop bounce, drives the draw lift */
     bool on_ground;    /* true while rolling on a platform */
     bool flying;       /* true while arcing through the air (no wall bounce) */
     bool active;       /* false when despawned and free to reuse */

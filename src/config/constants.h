@@ -50,6 +50,10 @@
 #define STOMP_SCORE 50
 #define STOMP_BOUNCE_SPEED 160.0f
 
+/* Barrels visibly hop when reversing or dropping onto a lower step. */
+#define BARREL_HOP_TIME 0.25f
+#define BARREL_HOP_HEIGHT 10.0f
+
 #define HIGHSCORE_FILE "bananakong_highscore.txt"
 
 #define START_LIVES 3
