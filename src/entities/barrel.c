@@ -7,7 +7,28 @@ void barrel_spawn(Barrel *b, Vector2 pos, float vx) {
     b->vx = vx;
     b->vy = 0.0f;
     b->on_ground = true;
+    b->flying = false;
     b->active = true;
+}
+
+void barrel_spawn_arc(Barrel *b, Vector2 pos, float vx, float vy) {
+    b->rect = (Rectangle){ pos.x, pos.y, BARREL_SIZE, BARREL_SIZE };
+    b->vx = vx;
+    b->vy = vy;
+    b->on_ground = false;
+    b->flying = true;
+    b->active = true;
+}
+
+static void barrel_bounce_off_screen(Barrel *b) {
+    /* Half the time a barrel reaching the map edge bounces back instead of
+     * rolling off; otherwise the off-screen check despawns it. */
+    if (b->rect.x < 0.0f || b->rect.x + b->rect.width > SCREEN_WIDTH) {
+        if (GetRandomValue(0, 1) == 0) {
+            b->rect.x = (b->rect.x < 0.0f) ? 0.0f : SCREEN_WIDTH - b->rect.width;
+            b->vx = -b->vx;
+        }
+    }
 }
 
 static void barrel_move_horizontal(Barrel *b, float dt) {
@@ -16,6 +37,7 @@ static void barrel_move_horizontal(Barrel *b, float dt) {
         b->rect.x -= b->vx * dt;
         b->vx = -b->vx;
     }
+    barrel_bounce_off_screen(b);
 }
 
 static void barrel_try_take_ladder(Barrel *b, float dt) {
@@ -46,7 +68,30 @@ static void barrel_resolve_vertical(Barrel *b, float dt) {
     }
 }
 
+static void barrel_flying_update(Barrel *b, float dt) {
+    /* No wall collisions while airborne: the arc sails over floor edges and
+     * lands on whatever platform is below it when it comes down. */
+    b->vy = physics_gravity_step(b->vy, dt);
+    b->rect.x += b->vx * dt;
+    b->rect.y += b->vy * dt;
+    barrel_bounce_off_screen(b);
+
+    if (b->vy > 0.0f && level_solid_at_rect(b->rect)) {
+        b->rect.y = physics_snap_bottom(b->rect.y + b->rect.height, TILE_SIZE) - b->rect.height;
+        b->vy = 0.0f;
+        b->on_ground = true;
+        b->flying = false; /* from here it rolls like any other barrel */
+    }
+    if (b->rect.x < -20.0f || b->rect.x > SCREEN_WIDTH + 20.0f || b->rect.y > SCREEN_HEIGHT + 20.0f) {
+        b->active = false;
+    }
+}
+
 void barrel_update(Barrel *b, float dt) {
+    if (b->flying) {
+        barrel_flying_update(b, dt);
+        return;
+    }
     barrel_move_horizontal(b, dt);
     barrel_try_take_ladder(b, dt);
     barrel_resolve_vertical(b, dt);

@@ -21,6 +21,11 @@
 #define BARREL_SPEED 70.0f
 #define BARREL_SPAWN_INTERVAL 1.8f
 
+/* One in N throws is a high arc that clears a floor or two before rolling. */
+#define BARREL_ARC_ODDS 3
+#define BARREL_ARC_VY 230.0f
+#define BARREL_ARC_SPEED_MUL 1.6f
+
 /* The barrel-throwing boss stands at the right end of the top platform. */
 #define KONG_PLATFORM_ROW 6
 #define KONG_PLATFORM_RIGHT (26 * TILE_SIZE) /* platform spans cols 0-25 */

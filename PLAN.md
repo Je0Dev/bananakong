@@ -35,9 +35,12 @@ green; build + tests must be green before merge.
 - [ ] Game alternates spawn side each respawn (deterministic, testable)
 
 ## 4. Kong throws barrels (both directions)
-- [ ] Add `core/kong.c/.h` + `kong_draw.c`: gorilla drawn with raylib shapes, arm-swing pose
-- [ ] Barrels spawn from his hand and alternate direction (`+/- BARREL_SPEED`) each throw
-- [ ] Barrels cascade down the stairs via gravity plus deterministic junction-ladder drops
+- [x] Add `kong.c/.h` + `kong_draw.c`: boss drawn from the hero sprite (scaled,
+      tinted) with a bobbing barrel, patrolling the top platform
+- [x] Barrels spawn from his hand and alternate direction (`+/- BARREL_SPEED`) each throw
+- [x] Barrels cascade down the stairs via gravity plus deterministic junction-ladder drops
+- [x] Arc throws: one in three leaves his hand in a high parabola, clearing a
+      floor or two before landing and rolling; barrels can bounce off screen edges
 
 ## 5. Gameplay features
 - [ ] Stomp: land on a barrel from above to break it (+50), bounce, no life lost

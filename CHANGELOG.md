@@ -22,7 +22,10 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Animated player (walk/climb frames, facing direction) and waving goal flag.
 - A boss Kong on the top platform (hero sprite scaled up and tinted) that
   throws barrels from his hand, alternating left/right each throw; his throw
-  cadence follows the score-based difficulty ramp.
+  cadence follows the score-based difficulty ramp, and he paces the platform.
+- One throw in three leaves Kong's hand as a high arc that clears a floor or
+  two, then rolls left or right once it lands; barrels also have a chance to
+  bounce off the screen edge instead of rolling away.
 
 ## [0.1.0] - 2026-08-18
 

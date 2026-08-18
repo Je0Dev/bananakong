@@ -12,8 +12,15 @@ void game_spawn_barrel(Game *g) {
             if (px < 0.0f) px = 0.0f;
             if (px > KONG_PLATFORM_RIGHT - BARREL_SIZE) px = KONG_PLATFORM_RIGHT - BARREL_SIZE;
             Vector2 pos = { px, KONG_PLATFORM_ROW * TILE_SIZE - BARREL_SIZE };
-            float speed = g->diff.barrel_speed * (g->kong.throw_left ? -1.0f : 1.0f);
-            barrel_spawn(&g->barrels[i], pos, speed);
+            float dir = g->kong.throw_left ? -1.0f : 1.0f;
+            /* One throw in three leaves Kong's hand as a high arc; it sails
+             * over a floor or two and rolls once it touches down. */
+            if (GetRandomValue(0, BARREL_ARC_ODDS - 1) == 0) {
+                barrel_spawn_arc(&g->barrels[i], pos, dir * g->diff.barrel_speed * BARREL_ARC_SPEED_MUL,
+                                 -BARREL_ARC_VY);
+            } else {
+                barrel_spawn(&g->barrels[i], pos, dir * g->diff.barrel_speed);
+            }
             g->kong.throw_left = !g->kong.throw_left;
             assets_play(&g->assets, SND_THROW);
             break;
