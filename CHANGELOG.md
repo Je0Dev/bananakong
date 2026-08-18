@@ -15,6 +15,11 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Floating score popups when barrels leave the screen or the flag is reached.
 - Best score persisted to `bananakong_highscore.txt`, shown on title/game-over.
 - `difficulty`, `highscore`, `popup`, and `scoring` modules with unit tests.
+- Kenney "New Platformer" sprites for the player, tiles, background, and
+  barrels (CC0), loaded via a new `assets` module.
+- Sound effects for jumping, barrel throws, scoring, hits, menu, and winning,
+  with audio device setup in `main.c`.
+- Animated player (walk/climb frames, facing direction) and waving goal flag.
 
 ## [0.1.0] - 2026-08-18
 

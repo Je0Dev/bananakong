@@ -16,8 +16,8 @@ coming, so every pause means another one is rolling your way. Get hit and you
 lose a life; run out of three lives and it is game over. Score points by
 surviving barrels and by winning the climb.
 
-The whole game is rendered with raylib primitives (shapes, not sprites), so it
-has no external assets and builds in seconds.
+Rendering and sound use free pixel-art sprites and effects from the
+[Kenney "New Platformer" pack](https://kenney.nl/assets) (CC0 license).
 
 ## Features
 
@@ -28,6 +28,9 @@ has no external assets and builds in seconds.
 - Title, game-over, and win screens with one-key restart.
 - Deterministic pure-logic modules (`physics`, `level`) with unit tests.
 - Runs at 60 FPS with a fixed-size 640x480 window.
+- Pause with `P`, score popups, a score-based difficulty ramp, and a
+  persistent best score.
+- Sprite rendering and sound effects from the Kenney New Platformer pack.
 
 ## Screenshots
 
@@ -77,7 +80,8 @@ or a manual library lookup, so it works across all three platforms above.
 ctest --test-dir build --output-on-failure
 ```
 
-Unit tests cover the physics helpers and level tile queries (38 checks).
+Unit tests cover the physics helpers, level tile queries, difficulty ramp,
+score popups, and high-score persistence (68 checks).
 
 ## Controls
 
@@ -86,6 +90,7 @@ Unit tests cover the physics helpers and level tile queries (38 checks).
 | Move    | Arrow keys / WASD         |
 | Jump    | Space                     |
 | Climb   | Up / Down on a ladder     |
+| Pause   | P                         |
 | Start / restart | Enter           |
 
 ## Project layout
@@ -97,7 +102,8 @@ src/
 ├── core/               game state, rendering, physics helpers
 ├── entities/           player and barrel logic + drawing
 └── world/              level grid and collision queries
-tests/                  unit tests (physics, level)
+assets/                 Kenney sprites and sound effects (CC0)
+tests/                  unit tests (physics, level, difficulty, popup, highscore)
 ```
 
 ## Docs
@@ -105,6 +111,13 @@ tests/                  unit tests (physics, level)
 - [CONSTRAINTS.md](CONSTRAINTS.md) - coding rules
 - [CONTRIBUTING.md](CONTRIBUTING.md) - git workflow
 - [CHANGELOG.md](CHANGELOG.md) - release history
+
+## Assets
+
+Sprites and sound effects come from the Kenney "New Platformer" pack
+([CC0](https://creativecommons.org/publicdomain/zero/1.0/)), courtesy of
+[Kenney](https://kenney.nl). The license file is bundled at
+[`assets/LICENSE-Kenney.txt`](assets/LICENSE-Kenney.txt).
 
 ## License
 
