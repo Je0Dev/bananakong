@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "level.h"
+#include "assets.h"
 
 /* An enemy barrel: rolling hazard with gravity and collision state. */
 typedef struct Barrel {
@@ -18,7 +19,7 @@ void barrel_spawn(Barrel *b, Vector2 pos, float vx);
 /* Advance barrel physics and collisions by dt. */
 void barrel_update(Barrel *b, float dt);
 
-/* Render the barrel as a wooden circle. */
-void barrel_draw(const Barrel *b);
+/* Render the barrel as the bomb sprite. */
+void barrel_draw(const Barrel *b, const Assets *a);
 
 #endif

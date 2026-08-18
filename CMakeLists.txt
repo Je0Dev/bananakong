@@ -47,7 +47,9 @@ set(INCLUDE_DIRS src src/config src/core src/entities src/world)
 # --- game executable ---
 add_executable(bananakong
     src/main.c
+    src/core/assets.c
     src/core/game.c
+    src/core/game_barrels.c
     src/core/game_draw.c
     src/core/physics.c
     src/core/difficulty.c
@@ -56,8 +58,10 @@ add_executable(bananakong
     src/core/scoring.c
     src/entities/barrel.c
     src/entities/player.c
+    src/entities/player_climb.c
     src/entities/player_draw.c
     src/world/level.c
+    src/world/level_draw.c
 )
 target_include_directories(bananakong PRIVATE ${INCLUDE_DIRS})
 target_link_libraries(bananakong PRIVATE ${RAYLIB_TARGET} m)

@@ -4,9 +4,6 @@
 #include "highscore.h"
 #include "scoring.h"
 
-/* Barrels start at the top platform's right edge and roll left. */
-static const Vector2 BARREL_SPAWN_POS = { 24.0f * TILE_SIZE, 6.0f * TILE_SIZE - BARREL_SIZE };
-
 static void game_reset(Game *g) {
     level_init(&g->level);
     g->player.lives = START_LIVES;
@@ -26,32 +23,15 @@ void game_init(Game *g) {
     g->best = highscore_load(HIGHSCORE_FILE);
 }
 
-static void game_spawn_barrel(Game *g) {
-    for (int i = 0; i < MAX_BARRELS; i++) {
-        if (!g->barrels[i].active) {
-            barrel_spawn(&g->barrels[i], BARREL_SPAWN_POS, -g->diff.barrel_speed);
-            break;
-        }
-    }
-}
-
-static void game_update_barrels(Game *g, float dt) {
-    for (int i = 0; i < MAX_BARRELS; i++) {
-        bool was_active = g->barrels[i].active;
-        if (g->barrels[i].active) barrel_update(&g->barrels[i], dt);
-        if (was_active && !g->barrels[i].active) {
-            Vector2 pos = { g->barrels[i].rect.x, g->barrels[i].rect.y };
-            scoring_barrel_popped(g, pos);
-        }
-    }
-}
-
 static void game_check_goal(Game *g) {
     int center_col = physics_tile_col(g->player.rect.x + g->player.rect.width / 2.0f, TILE_SIZE);
     int feet_row = physics_tile_row(g->player.rect.y + g->player.rect.height, TILE_SIZE);
     int goal_col = physics_tile_col(g->level.goal.x, TILE_SIZE);
     int goal_row = physics_tile_row(g->level.goal.y, TILE_SIZE);
-    if (center_col == goal_col && feet_row == goal_row) scoring_player_win(g);
+    if (center_col == goal_col && feet_row == goal_row) {
+        scoring_player_win(g);
+        assets_play(&g->assets, SND_GEM);
+    }
 }
 
 static void game_check_barrel_hit(Game *g) {
@@ -61,6 +41,7 @@ static void game_check_barrel_hit(Game *g) {
         if (physics_aabb_overlap(g->player.rect, g->barrels[i].rect)) {
             g->player.lives--;
             g->player.invuln_timer = 1.0f;
+            assets_play(&g->assets, SND_HURT);
             if (g->player.lives <= 0) {
                 scoring_game_over(g);
             } else {
@@ -72,7 +53,7 @@ static void game_check_barrel_hit(Game *g) {
 }
 
 static void game_update_playing(Game *g, float dt) {
-    player_update(&g->player, dt);
+    player_update(&g->player, dt, &g->assets);
     game_check_goal(g);
     if (g->state == GS_WIN) return;
 
@@ -94,7 +75,10 @@ void game_update(Game *g, float dt) {
 
     switch (g->state) {
         case GS_TITLE:
-            if (IsKeyPressed(KEY_ENTER)) game_reset(g);
+            if (IsKeyPressed(KEY_ENTER)) {
+                assets_play(&g->assets, SND_SELECT);
+                game_reset(g);
+            }
             break;
 
         case GS_PLAYING:
@@ -110,7 +94,10 @@ void game_update(Game *g, float dt) {
         /* Both end screens restart the run on Enter. */
         case GS_GAMEOVER:
         case GS_WIN:
-            if (IsKeyPressed(KEY_ENTER)) game_reset(g);
+            if (IsKeyPressed(KEY_ENTER)) {
+                assets_play(&g->assets, SND_SELECT);
+                game_reset(g);
+            }
             break;
     }
 }

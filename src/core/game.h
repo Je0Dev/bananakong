@@ -7,6 +7,7 @@
 #include "barrel.h"
 #include "difficulty.h"
 #include "popup.h"
+#include "assets.h"
 
 /* Top-level game screens the state machine can be in. */
 typedef enum GameState {
@@ -20,6 +21,7 @@ typedef enum GameState {
 /* Full game state: level, player, barrels, and HUD counters. */
 typedef struct Game {
     GameState state;
+    Assets assets;   /* sprites and sounds, loaded once at startup */
     Level level;
     Player player;
     Barrel barrels[MAX_BARRELS];
@@ -36,6 +38,10 @@ void game_init(Game *g);
 
 /* Advance the current screen (input, physics, state transitions). */
 void game_update(Game *g, float dt);
+
+/* Spawn a barrel from the top platform and update all barrels, scoring pops. */
+void game_spawn_barrel(Game *g);
+void game_update_barrels(Game *g, float dt);
 
 /* Render everything for the current screen. */
 void game_draw(const Game *g);
