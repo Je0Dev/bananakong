@@ -10,6 +10,7 @@ typedef struct Kong {
     float throw_timer;  /* seconds until the next barrel throw */
     bool throw_left;    /* throw direction, alternated each throw */
     float anim_timer;   /* accumulated time, drives the barrel bob */
+    float patrol_dir;   /* -1 or +1, Kong's walking direction */
 } Kong;
 
 /* Place Kong on the top platform and arm the first throw. */

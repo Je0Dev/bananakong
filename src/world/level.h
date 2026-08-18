@@ -17,6 +17,9 @@ void level_init(Level *level);
 /* Character at a grid tile; '.' for anything outside the grid. */
 char level_tile_at(int col, int row);
 
+/* Raw grid row string (GRID_COLS chars) for layout validation; NULL if OOB. */
+const char *level_row(int row);
+
 /* True if the tile is solid (platform '#' or goal 'G'). */
 bool level_is_solid(int col, int row);
 

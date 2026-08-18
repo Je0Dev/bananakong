@@ -16,5 +16,6 @@ void kong_draw(const Kong *k, const Assets *a) {
     if (k->throw_timer < 0.3f) bob += 10.0f * (1.0f - k->throw_timer / 0.3f);
     float bs = (float)BARREL_SIZE / (float)a->bomb.width;
     Vector2 bp = { k->rect.x - 12.0f, k->rect.y + 14.0f + bob };
+    if (bp.x < 0.0f) bp.x = 0.0f;
     DrawTextureEx(a->bomb, bp, 0.0f, bs, WHITE);
 }

@@ -23,9 +23,11 @@
 
 /* The barrel-throwing boss stands at the right end of the top platform. */
 #define KONG_PLATFORM_ROW 6
+#define KONG_PLATFORM_RIGHT (26 * TILE_SIZE) /* platform spans cols 0-25 */
 #define KONG_X_TILE 18
 #define KONG_WIDTH 80
 #define KONG_HEIGHT 80
+#define KONG_SPEED 40.0f
 
 /* Difficulty ramp: barrels get faster and more frequent as the score grows. */
 #define DIFFICULTY_START_SPEED 70.0f
