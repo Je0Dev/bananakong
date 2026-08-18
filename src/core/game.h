@@ -32,6 +32,9 @@ typedef struct Game {
     bool spawn_right;   /* next respawn goes to the right spawn point */
     int level_index;    /* current level number, starts at 1 */
     unsigned run_seed;  /* seeds this run's procedural level generation */
+    float level_elapsed;   /* seconds spent on the current level */
+    int level_stomps;      /* barrels smashed on the current level */
+    float level_clear_time; /* level_elapsed recorded when the goal was hit */
     int score;
     int best;           /* all-time best score, loaded from disk */
     float screen_timer; /* time on the current screen, drives blinking */
@@ -48,6 +51,10 @@ void game_update(Game *g, float dt);
 void game_spawn_barrel(Game *g);
 void game_update_barrels(Game *g, float dt);
 void game_check_barrel_hit(Game *g);
+
+/* Move to the next level after a win: keep score/lives/best, bump the level
+ * index, generate the next seed, and respawn the player. */
+void game_start_level(Game *g);
 
 /* Render everything for the current screen. */
 void game_draw(const Game *g);

@@ -3,6 +3,7 @@
 #include "physics.h"
 #include "highscore.h"
 #include "scoring.h"
+#include "level_gen.h"
 
 static void game_reset(Game *g) {
     g->level_index = 1;
@@ -15,6 +16,9 @@ static void game_reset(Game *g) {
     for (int i = 0; i < MAX_BARRELS; i++) g->barrels[i].active = false;
     for (int i = 0; i < MAX_POPUPS; i++) g->popups[i].active = false;
     g->score = 0;
+    g->level_elapsed = 0.0f;
+    g->level_stomps = 0;
+    g->level_clear_time = 0.0f;
     g->diff = difficulty_for_score(0);
     g->state = GS_PLAYING;
 }
@@ -34,12 +38,29 @@ static void game_check_goal(Game *g) {
     int goal_col = physics_tile_col(g->level.goal.x, TILE_SIZE);
     int goal_row = physics_tile_row(g->level.goal.y, TILE_SIZE);
     if (center_col == goal_col && feet_row == goal_row) {
+        g->level_clear_time = g->level_elapsed;
         scoring_player_win(g);
         assets_play(&g->assets, SND_GEM);
     }
 }
 
+void game_start_level(Game *g) {
+    g->level_index++;
+    g->run_seed = level_gen_next_seed(g->run_seed);
+    level_init(&g->level, g->level_index, g->run_seed);
+    g->spawn_right = false;
+    player_reset(&g->player, g->level.spawn_left);
+    kong_init(&g->kong);
+    for (int i = 0; i < MAX_BARRELS; i++) g->barrels[i].active = false;
+    for (int i = 0; i < MAX_POPUPS; i++) g->popups[i].active = false;
+    g->level_elapsed = 0.0f;
+    g->level_stomps = 0;
+    g->level_clear_time = 0.0f;
+    g->state = GS_PLAYING;
+}
+
 static void game_update_playing(Game *g, float dt) {
+    g->level_elapsed += dt;
     player_update(&g->player, dt, &g->assets);
     game_check_goal(g);
     if (g->state == GS_WIN) return;
@@ -79,12 +100,18 @@ void game_update(Game *g, float dt) {
             if (IsKeyPressed(KEY_P)) g->state = GS_PLAYING;
             break;
 
-        /* Both end screens restart the run on Enter. */
+        /* The win screen advances to the next level; game over restarts. */
         case GS_GAMEOVER:
-        case GS_WIN:
             if (IsKeyPressed(KEY_ENTER)) {
                 assets_play(&g->assets, SND_SELECT);
                 game_reset(g);
+            }
+            break;
+
+        case GS_WIN:
+            if (IsKeyPressed(KEY_ENTER)) {
+                assets_play(&g->assets, SND_SELECT);
+                game_start_level(g);
             }
             break;
     }

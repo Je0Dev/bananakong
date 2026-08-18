@@ -41,15 +41,19 @@ static void game_draw_hud(const Game *g) {
 static void game_draw_overlay(const Game *g) {
     DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, (Color){0, 0, 0, 170});
     ui_draw_panel(g->assets.ui_panel_dark, (Rectangle){140, 140, 360, 200});
-    const char *msg = (g->state == GS_WIN) ? "YOU WIN!" : "GAME OVER";
+    const char *msg = (g->state == GS_WIN)
+        ? TextFormat("LEVEL %d CLEAR!", g->level_index)
+        : "GAME OVER";
     Color c = (g->state == GS_WIN) ? (Color){70, 140, 40, 255} : (Color){180, 40, 30, 255};
     DrawText(msg, (SCREEN_WIDTH - MeasureText(msg, 44)) / 2, 178, 44, c);
     DrawText(TextFormat("Score: %d", g->score),
         (SCREEN_WIDTH - MeasureText(TextFormat("Score: %d", g->score), 24)) / 2, 238, 24, UI_INK);
     DrawText(TextFormat("Best: %d", g->best),
         (SCREEN_WIDTH - MeasureText(TextFormat("Best: %d", g->best), 20)) / 2, 270, 20, UI_TAN);
-    DrawText("Press ENTER to play again",
-        (SCREEN_WIDTH - MeasureText("Press ENTER to play again", 20)) / 2, 302, 20, UI_TAN);
+    const char *prompt = (g->state == GS_WIN)
+        ? TextFormat("Press ENTER for LEVEL %d", g->level_index + 1)
+        : "Press ENTER to play again";
+    DrawText(prompt, (SCREEN_WIDTH - MeasureText(prompt, 20)) / 2, 302, 20, UI_TAN);
 }
 
 static void game_draw_paused(const Assets *a) {

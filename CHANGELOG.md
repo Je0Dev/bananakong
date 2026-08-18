@@ -43,6 +43,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
   the grid lives in `level.c` and `level_init` now takes a level index and
   seed. Connectivity, no-floating-ladder, and determinism are covered by
   seed-agnostic unit tests.
+- Clearing a level advances to the next one: the player keeps score, lives,
+  and best, the level index bumps, and the next level is generated from a
+  fresh seed (`game_start_level`); the win overlay reads "LEVEL N CLEAR!".
 
 ## [0.1.0] - 2026-08-18
 

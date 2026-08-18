@@ -59,6 +59,7 @@ void game_check_barrel_hit(Game *g) {
             g->barrels[i].active = false;
             g->player.vy = -STOMP_BOUNCE_SPEED;
             g->player.on_ground = false;
+            g->level_stomps++;
             scoring_barrel_stomped(g, pos);
             assets_play(&g->assets, SND_COIN);
             continue;

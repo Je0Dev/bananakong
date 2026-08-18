@@ -98,10 +98,10 @@ draw/helpers as needed).
       seed on the title screen is folded into the 9.6 UI/UX pass.
 
 ### 9.2 Win → next level, harder each time
-- [ ] `Game.level_index` (starts 1). On goal: record `level_clear_time` and
+- [x] `Game.level_index` (starts 1). On goal: record `level_clear_time` and
       `level_stomps` (level-scoped counters), +100 win score, `GS_WIN`
       ("LEVEL N CLEAR!").
-- [ ] Enter on `GS_WIN` advances instead of restarting: `game_start_level(g)`
+- [x] Enter on `GS_WIN` advances instead of restarting: `game_start_level(g)`
       keeps score/lives/best, bumps `level_index`, generates the next seed,
       respawns the player, clears barrels. Game over still resets the whole run.
 
