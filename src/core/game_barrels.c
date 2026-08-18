@@ -2,13 +2,16 @@
 #include "constants.h"
 #include "scoring.h"
 
-/* Barrels start at the top platform's right edge and roll left. */
-static const Vector2 BARREL_SPAWN_POS = { 24.0f * TILE_SIZE, 6.0f * TILE_SIZE - BARREL_SIZE };
-
 void game_spawn_barrel(Game *g) {
     for (int i = 0; i < MAX_BARRELS; i++) {
         if (!g->barrels[i].active) {
-            barrel_spawn(&g->barrels[i], BARREL_SPAWN_POS, -g->diff.barrel_speed);
+            /* Barrels leave Kong's front hand at platform level, rolling in
+             * the direction toggled for this throw. */
+            Vector2 pos = { g->kong.rect.x - BARREL_SIZE,
+                            KONG_PLATFORM_ROW * TILE_SIZE - BARREL_SIZE };
+            float speed = g->diff.barrel_speed * (g->kong.throw_left ? -1.0f : 1.0f);
+            barrel_spawn(&g->barrels[i], pos, speed);
+            g->kong.throw_left = !g->kong.throw_left;
             assets_play(&g->assets, SND_THROW);
             break;
         }

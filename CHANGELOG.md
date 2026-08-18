@@ -20,6 +20,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Sound effects for jumping, barrel throws, scoring, hits, menu, and winning,
   with audio device setup in `main.c`.
 - Animated player (walk/climb frames, facing direction) and waving goal flag.
+- A boss Kong on the top platform (hero sprite scaled up and tinted) that
+  throws barrels from his hand, alternating left/right each throw; his throw
+  cadence follows the score-based difficulty ramp.
 
 ## [0.1.0] - 2026-08-18
 

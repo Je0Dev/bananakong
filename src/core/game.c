@@ -8,9 +8,9 @@ static void game_reset(Game *g) {
     level_init(&g->level);
     g->player.lives = START_LIVES;
     player_reset(&g->player, g->level.spawn);
+    kong_init(&g->kong);
     for (int i = 0; i < MAX_BARRELS; i++) g->barrels[i].active = false;
     for (int i = 0; i < MAX_POPUPS; i++) g->popups[i].active = false;
-    g->spawn_timer = 1.0f;
     g->score = 0;
     g->diff = difficulty_for_score(0);
     g->state = GS_PLAYING;
@@ -57,11 +57,12 @@ static void game_update_playing(Game *g, float dt) {
     game_check_goal(g);
     if (g->state == GS_WIN) return;
 
-    /* Difficulty follows the score, so the ramp updates as points are earned. */
+    /* Difficulty follows the score, so the ramp updates as points are earned.
+     * Kong throws a barrel each time his timer runs out, alternating sides. */
     g->diff = difficulty_for_score(g->score);
-    g->spawn_timer -= dt;
-    if (g->spawn_timer <= 0.0f) {
-        g->spawn_timer = g->diff.spawn_interval;
+    kong_update(&g->kong, dt);
+    if (g->kong.throw_timer <= 0.0f) {
+        g->kong.throw_timer = g->diff.spawn_interval;
         game_spawn_barrel(g);
     }
 

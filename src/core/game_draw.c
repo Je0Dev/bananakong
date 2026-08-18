@@ -44,6 +44,7 @@ void game_draw(const Game *g) {
     }
 
     level_draw(&g->assets);
+    kong_draw(&g->kong, &g->assets);
     for (int i = 0; i < MAX_BARRELS; i++) {
         if (g->barrels[i].active) barrel_draw(&g->barrels[i], &g->assets);
     }
