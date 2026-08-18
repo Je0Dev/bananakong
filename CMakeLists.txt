@@ -56,6 +56,7 @@ add_executable(bananakong
     src/core/highscore.c
     src/core/popup.c
     src/core/scoring.c
+    src/core/ui_draw.c
     src/entities/barrel.c
     src/entities/barrel_draw.c
     src/entities/kong.c

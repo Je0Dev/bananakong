@@ -54,6 +54,15 @@
 #define BARREL_HOP_TIME 0.25f
 #define BARREL_HOP_HEIGHT 10.0f
 
+/* Kenney UI panels (32px tiles) have a 4px border on every side; a 9-slice
+ * keeps corners and the border at native scale while the middle stretches. */
+#define UI_PANEL_BORDER 4
+
+/* Ink colors that read well on the cream Kenney panel interior. */
+#define UI_INK   (Color){109, 75, 39, 255}
+#define UI_TAN   (Color){163, 112, 58, 255}
+#define UI_CREAM (Color){255, 241, 210, 255}
+
 #define HIGHSCORE_FILE "bananakong_highscore.txt"
 
 #define START_LIVES 3

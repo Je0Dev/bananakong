@@ -18,12 +18,15 @@ void assets_load(Assets *a) {
     a->flag_b = LoadTexture("assets/sprites/flag_yellow_b.png");
     a->background = LoadTexture("assets/sprites/background_fade_trees.png");
     a->bomb = LoadTexture("assets/sprites/bomb.png");
+    a->ui_panel_light = LoadTexture("assets/ui/panel_light.png");
+    a->ui_panel_dark = LoadTexture("assets/ui/panel_dark.png");
 
     /* Nearest-neighbor keeps the small pixel art crisp when scaled down. */
     Texture2D *textures[] = { &a->player_idle, &a->player_walk_a, &a->player_walk_b,
         &a->player_jump, &a->player_climb_a, &a->player_climb_b, &a->player_hit,
         &a->player_duck, &a->tile_grass, &a->ladder_top, &a->ladder_middle,
-        &a->ladder_bottom, &a->flag_a, &a->flag_b, &a->background, &a->bomb };
+        &a->ladder_bottom, &a->flag_a, &a->flag_b, &a->background, &a->bomb,
+        &a->ui_panel_light, &a->ui_panel_dark };
     for (size_t i = 0; i < sizeof(textures) / sizeof(textures[0]); i++) {
         SetTextureFilter(*textures[i], TEXTURE_FILTER_POINT);
     }
@@ -54,6 +57,8 @@ void assets_unload(Assets *a) {
     UnloadTexture(a->flag_b);
     UnloadTexture(a->background);
     UnloadTexture(a->bomb);
+    UnloadTexture(a->ui_panel_light);
+    UnloadTexture(a->ui_panel_dark);
     for (int i = 0; i < SND_COUNT; i++) UnloadSound(a->sounds[i]);
 }
 

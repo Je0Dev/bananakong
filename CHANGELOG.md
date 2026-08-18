@@ -34,6 +34,10 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Barrels hop visually when reversing off a wall or landing a full step down;
   the hop is a short sine arc applied to the sprite (draw moved to
   `barrel_draw.c` to respect the line limit).
+- Kenney "UI Pack - Pixel Adventure" panels for the title-screen banner, the
+  pause/game-over/win overlays, and a fading game backdrop behind the menus,
+  drawn via a new `ui_draw` 9-slice helper (corner/border stay crisp at any
+  size; `assets/ui/panel_light.png` and `panel_dark.png`).
 
 ## [0.1.0] - 2026-08-18
 
