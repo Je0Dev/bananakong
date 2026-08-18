@@ -2,6 +2,8 @@
 
 A Donkey Kong-inspired platformer written in C with [raylib](https://www.raylib.com/).
 
+![bananakong](docs/screenshots/banner.png)
+
 ## About the game
 
 You play as **a heroic banana** on a single-screen climbing challenge. Barrels
@@ -26,6 +28,12 @@ has no external assets and builds in seconds.
 - Title, game-over, and win screens with one-key restart.
 - Deterministic pure-logic modules (`physics`, `level`) with unit tests.
 - Runs at 60 FPS with a fixed-size 640x480 window.
+
+## Screenshots
+
+| Title screen | Gameplay | Climbing the ladder |
+|---|---|---|
+| ![Title](docs/screenshots/title.png) | ![Gameplay](docs/screenshots/gameplay.png) | ![Climbing](docs/screenshots/climbing.png) |
 
 ## Install raylib
 

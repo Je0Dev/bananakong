@@ -14,6 +14,15 @@ These rules apply to every commit in this repository. Reviews must enforce them.
   `chore:`). See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow.
 - Tests must pass on a branch before it is merged into `main`.
 
+## Merge approval
+
+- **When changes are pushed to GitHub and the user has not explicitly said
+  "merge", never merge to `main` automatically.**
+- Instead, push the work on its own branch and leave it for the user to review
+  and approve the merge on GitHub.
+- If the user asks the agent to merge on their behalf, that explicit request
+  is approval enough - the agent may then merge and push `main`.
+
 ## Code size
 
 - Every source file must stay within **100-120 lines maximum**.
