@@ -41,6 +41,15 @@
 #define DIFFICULTY_MIN_INTERVAL 0.6f
 #define DIFFICULTY_RAMP_SCORE 4000
 
+/* Per-level + performance difficulty: each level tightens the baseline, and
+ * clearing fast with plenty of stomps makes the next level slightly harder. */
+#define DIFFICULTY_LEVEL_INTERVAL_STEP 0.2f
+#define DIFFICULTY_LEVEL_SPEED_STEP 12.0f
+#define DIFFICULTY_PERF_INTERVAL_ADJ 0.25f
+#define DIFFICULTY_PERF_SPEED_ADJ 20.0f
+#define PERF_TIME_TARGET 45.0f
+#define PERF_STOMP_TARGET 6
+
 /* Floating score popups: rise and fade out over their lifetime. */
 #define MAX_POPUPS 8
 #define POPUP_LIFETIME 0.9f

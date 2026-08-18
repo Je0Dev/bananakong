@@ -46,6 +46,10 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Clearing a level advances to the next one: the player keeps score, lives,
   and best, the level index bumps, and the next level is generated from a
   fresh seed (`game_start_level`); the win overlay reads "LEVEL N CLEAR!".
+- Difficulty now has two layers: a level/performance baseline (each level is
+  tighter, and clearing fast with plenty of stomps makes the next one
+  slightly harder) and the existing score ramp on top (`difficulty_for_level`
+  and `difficulty_for_state`, unit-tested).
 
 ## [0.1.0] - 2026-08-18
 

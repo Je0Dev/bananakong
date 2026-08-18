@@ -106,13 +106,13 @@ draw/helpers as needed).
       respawns the player, clears barrels. Game over still resets the whole run.
 
 ### 9.3 Performance-based difficulty
-- [ ] `difficulty.c`: new pure `difficulty_for_level(level_index, clear_time,
+- [x] `difficulty.c`: new pure `difficulty_for_level(level_index, clear_time,
       stomps)` — base ramp from level index plus a performance factor (faster
       clear and more stomps make the next level slightly tighter: shorter
       spawn interval, faster barrels), all clamped.
-- [ ] The in-level score ramp (`difficulty_for_score`) stays and scales on top
-      of the level baseline during play.
-- [ ] `tests/test_difficulty.c`: level index monotonic, performance factors
+- [x] The in-level score ramp (`difficulty_for_score`) stays; `difficulty_for_state`
+      blends it on top of the level baseline during play.
+- [x] `tests/test_difficulty.c`: level index monotonic, performance factors
       deterministic + clamped, extremes stable.
 
 ### 9.4 Cleaner barrel animation

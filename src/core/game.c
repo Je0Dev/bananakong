@@ -19,7 +19,7 @@ static void game_reset(Game *g) {
     g->level_elapsed = 0.0f;
     g->level_stomps = 0;
     g->level_clear_time = 0.0f;
-    g->diff = difficulty_for_score(0);
+    g->diff = difficulty_for_state(1, 0.0f, 0, 0);
     g->state = GS_PLAYING;
 }
 
@@ -65,9 +65,9 @@ static void game_update_playing(Game *g, float dt) {
     game_check_goal(g);
     if (g->state == GS_WIN) return;
 
-    /* Difficulty follows the score, so the ramp updates as points are earned.
-     * Kong throws a barrel each time his timer runs out, alternating sides. */
-    g->diff = difficulty_for_score(g->score);
+    /* Difficulty blends the level/performance baseline with the score ramp,
+     * so each level is tighter and great play makes the next one tighter. */
+    g->diff = difficulty_for_state(g->level_index, g->level_clear_time, g->level_stomps, g->score);
     kong_update(&g->kong, dt);
     if (g->kong.throw_timer <= 0.0f) {
         g->kong.throw_timer = g->diff.spawn_interval;
