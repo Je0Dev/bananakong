@@ -50,6 +50,10 @@ add_executable(bananakong
     src/core/game.c
     src/core/game_draw.c
     src/core/physics.c
+    src/core/difficulty.c
+    src/core/highscore.c
+    src/core/popup.c
+    src/core/scoring.c
     src/entities/barrel.c
     src/entities/player.c
     src/entities/player_draw.c
@@ -64,7 +68,13 @@ add_executable(test_bananakong
     tests/test_main.c
     tests/test_physics.c
     tests/test_level.c
+    tests/test_difficulty.c
+    tests/test_highscore.c
+    tests/test_popup.c
     src/core/physics.c
+    src/core/difficulty.c
+    src/core/highscore.c
+    src/core/popup.c
     src/world/level.c
 )
 target_include_directories(test_bananakong PRIVATE ${INCLUDE_DIRS} tests)
