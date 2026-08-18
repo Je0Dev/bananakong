@@ -1,6 +1,13 @@
 #include "game.h"
 #include "constants.h"
+#include "physics.h"
 #include "scoring.h"
+
+/* Toggle the spawn side so consecutive respawns land on opposite ends. */
+static Vector2 game_next_spawn(Game *g) {
+    g->spawn_right = !g->spawn_right;
+    return g->spawn_right ? g->level.spawn_right : g->level.spawn_left;
+}
 
 void game_spawn_barrel(Game *g) {
     for (int i = 0; i < MAX_BARRELS; i++) {
@@ -37,5 +44,34 @@ void game_update_barrels(Game *g, float dt) {
             scoring_barrel_popped(g, pos);
             assets_play(&g->assets, SND_COIN);
         }
+    }
+}
+
+void game_check_barrel_hit(Game *g) {
+    if (g->player.invuln_timer > 0.0f) return;
+    for (int i = 0; i < MAX_BARRELS; i++) {
+        if (!g->barrels[i].active) continue;
+        if (!physics_aabb_overlap(g->player.rect, g->barrels[i].rect)) continue;
+
+        /* Landing from above smashes the barrel: score, bounce, no life lost. */
+        if (physics_stomp_hit(g->player.rect, g->barrels[i].rect, g->player.vy)) {
+            Vector2 pos = { g->barrels[i].rect.x, g->barrels[i].rect.y };
+            g->barrels[i].active = false;
+            g->player.vy = -STOMP_BOUNCE_SPEED;
+            g->player.on_ground = false;
+            scoring_barrel_stomped(g, pos);
+            assets_play(&g->assets, SND_COIN);
+            continue;
+        }
+
+        g->player.lives--;
+        g->player.invuln_timer = 1.0f;
+        assets_play(&g->assets, SND_HURT);
+        if (g->player.lives <= 0) {
+            scoring_game_over(g);
+        } else {
+            player_reset(&g->player, game_next_spawn(g));
+        }
+        break;
     }
 }

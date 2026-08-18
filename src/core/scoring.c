@@ -13,6 +13,11 @@ void scoring_barrel_popped(Game *g, Vector2 pos) {
     popup_spawn(g->popups, MAX_POPUPS, pos, 10);
 }
 
+void scoring_barrel_stomped(Game *g, Vector2 pos) {
+    g->score += STOMP_SCORE;
+    popup_spawn(g->popups, MAX_POPUPS, pos, STOMP_SCORE);
+}
+
 void scoring_player_win(Game *g) {
     g->score += 100;
     scoring_popup_at_player(g, 100);

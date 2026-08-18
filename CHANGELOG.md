@@ -28,6 +28,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
   bounce off the screen edge instead of rolling away.
 - Two player spawn points (bottom-left and bottom-right); each respawn after a
   hit alternates to the opposite side.
+- Stomping a barrel from above smashes it (+50), bounces the player up, and
+  costs no life (a falling feet-on-top contact is detected by a pure physics
+  helper with unit tests).
 
 ## [0.1.0] - 2026-08-18
 

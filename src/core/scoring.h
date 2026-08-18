@@ -6,6 +6,9 @@
 /* Award points for a barrel rolling off the screen and show a popup. */
 void scoring_barrel_popped(Game *g, Vector2 pos);
 
+/* Award points for stomping a barrel and show a popup at the barrel. */
+void scoring_barrel_stomped(Game *g, Vector2 pos);
+
 /* Award the win bonus, persist the best score, and enter the win screen. */
 void scoring_player_win(Game *g);
 

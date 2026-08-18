@@ -41,9 +41,11 @@ void game_init(Game *g);
 /* Advance the current screen (input, physics, state transitions). */
 void game_update(Game *g, float dt);
 
-/* Spawn a barrel from the top platform and update all barrels, scoring pops. */
+/* Spawn a barrel from the top platform, update all barrels, and resolve
+ * player/barrel collisions (hits and stomps). */
 void game_spawn_barrel(Game *g);
 void game_update_barrels(Game *g, float dt);
+void game_check_barrel_hit(Game *g);
 
 /* Render everything for the current screen. */
 void game_draw(const Game *g);

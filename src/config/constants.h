@@ -46,6 +46,10 @@
 #define POPUP_LIFETIME 0.9f
 #define POPUP_RISE 30.0f
 
+/* Stomping a barrel from above breaks it, bounces the player, and scores. */
+#define STOMP_SCORE 50
+#define STOMP_BOUNCE_SPEED 160.0f
+
 #define HIGHSCORE_FILE "bananakong_highscore.txt"
 
 #define START_LIVES 3

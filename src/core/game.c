@@ -4,12 +4,6 @@
 #include "highscore.h"
 #include "scoring.h"
 
-/* Toggle the spawn side so consecutive respawns land on opposite ends. */
-static Vector2 game_next_spawn(Game *g) {
-    g->spawn_right = !g->spawn_right;
-    return g->spawn_right ? g->level.spawn_right : g->level.spawn_left;
-}
-
 static void game_reset(Game *g) {
     level_init(&g->level);
     g->player.lives = START_LIVES;
@@ -38,24 +32,6 @@ static void game_check_goal(Game *g) {
     if (center_col == goal_col && feet_row == goal_row) {
         scoring_player_win(g);
         assets_play(&g->assets, SND_GEM);
-    }
-}
-
-static void game_check_barrel_hit(Game *g) {
-    if (g->player.invuln_timer > 0.0f) return;
-    for (int i = 0; i < MAX_BARRELS; i++) {
-        if (!g->barrels[i].active) continue;
-        if (physics_aabb_overlap(g->player.rect, g->barrels[i].rect)) {
-            g->player.lives--;
-            g->player.invuln_timer = 1.0f;
-            assets_play(&g->assets, SND_HURT);
-            if (g->player.lives <= 0) {
-                scoring_game_over(g);
-            } else {
-                player_reset(&g->player, game_next_spawn(g));
-            }
-            break;
-        }
     }
 }
 

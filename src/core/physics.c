@@ -26,3 +26,9 @@ bool physics_aabb_overlap(Rectangle a, Rectangle b) {
            a.y < b.y + b.height &&
            a.y + a.height > b.y;
 }
+
+bool physics_stomp_hit(Rectangle player, Rectangle barrel, float vy) {
+    /* A stomp needs the player falling with feet in the barrel's top half. */
+    if (vy <= 0.0f) return false;
+    return (player.y + player.height) - barrel.y < barrel.height * 0.5f;
+}
