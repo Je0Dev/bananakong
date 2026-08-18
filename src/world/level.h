@@ -5,9 +5,10 @@
 #include "constants.h"
 #include "assets.h"
 
-/* Layout metadata: player spawn point and the golden flag goal tile. */
+/* Layout metadata: player spawn points and the golden flag goal tile. */
 typedef struct Level {
-    Vector2 spawn;
+    Vector2 spawn_left;   /* player starts bottom-left */
+    Vector2 spawn_right;  /* alternate spawn, bottom-right */
     Vector2 goal;
 } Level;
 

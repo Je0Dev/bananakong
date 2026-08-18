@@ -26,6 +26,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - One throw in three leaves Kong's hand as a high arc that clears a floor or
   two, then rolls left or right once it lands; barrels also have a chance to
   bounce off the screen edge instead of rolling away.
+- Two player spawn points (bottom-left and bottom-right); each respawn after a
+  hit alternates to the opposite side.
 
 ## [0.1.0] - 2026-08-18
 

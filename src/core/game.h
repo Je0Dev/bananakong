@@ -29,6 +29,7 @@ typedef struct Game {
     Barrel barrels[MAX_BARRELS];
     Popup popups[MAX_POPUPS];
     Difficulty diff;    /* current difficulty, scaled from the score */
+    bool spawn_right;   /* next respawn goes to the right spawn point */
     int score;
     int best;           /* all-time best score, loaded from disk */
     float screen_timer; /* time on the current screen, drives blinking */

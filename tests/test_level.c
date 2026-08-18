@@ -93,13 +93,19 @@ static bool bfs_reaches_goal(int start_col, int start_row) {
     return false;
 }
 
-static void test_spawn_on_ground(void) {
+static void test_spawns_reach_goal(void) {
     Level level;
     level_init(&level);
-    int col = physics_tile_col(level.spawn.x, TILE_SIZE);
-    int row = physics_tile_row(level.spawn.y + PLAYER_HEIGHT, TILE_SIZE);
-    CHECK(level_is_solid(col, row));
-    CHECK(bfs_reaches_goal(col, row));
+    CHECK(physics_tile_col(level.spawn_left.x, TILE_SIZE) !=
+          physics_tile_col(level.spawn_right.x, TILE_SIZE));
+
+    const Vector2 *spawns[2] = { &level.spawn_left, &level.spawn_right };
+    for (int i = 0; i < 2; i++) {
+        int col = physics_tile_col(spawns[i]->x, TILE_SIZE);
+        int row = physics_tile_row(spawns[i]->y + PLAYER_HEIGHT, TILE_SIZE);
+        CHECK(level_is_solid(col, row));
+        CHECK(bfs_reaches_goal(col, row));
+    }
 }
 
 void test_level(void) {
@@ -109,5 +115,5 @@ void test_level(void) {
     test_goal();
     test_ladder_shafts();
     test_no_floating_ladders();
-    test_spawn_on_ground();
+    test_spawns_reach_goal();
 }

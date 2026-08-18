@@ -4,10 +4,17 @@
 #include "highscore.h"
 #include "scoring.h"
 
+/* Toggle the spawn side so consecutive respawns land on opposite ends. */
+static Vector2 game_next_spawn(Game *g) {
+    g->spawn_right = !g->spawn_right;
+    return g->spawn_right ? g->level.spawn_right : g->level.spawn_left;
+}
+
 static void game_reset(Game *g) {
     level_init(&g->level);
     g->player.lives = START_LIVES;
-    player_reset(&g->player, g->level.spawn);
+    g->spawn_right = false; /* fresh run starts bottom-left */
+    player_reset(&g->player, g->level.spawn_left);
     kong_init(&g->kong);
     for (int i = 0; i < MAX_BARRELS; i++) g->barrels[i].active = false;
     for (int i = 0; i < MAX_POPUPS; i++) g->popups[i].active = false;
@@ -45,7 +52,7 @@ static void game_check_barrel_hit(Game *g) {
             if (g->player.lives <= 0) {
                 scoring_game_over(g);
             } else {
-                player_reset(&g->player, g->level.spawn);
+                player_reset(&g->player, game_next_spawn(g));
             }
             break;
         }

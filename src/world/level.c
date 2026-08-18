@@ -38,7 +38,8 @@ static const char TILES[GRID_ROWS][GRID_COLS + 1] = {
     "########################################",
 };
 
-static const Vector2 SPAWN = { 5.0f * TILE_SIZE, (GRID_ROWS - 2) * TILE_SIZE - PLAYER_HEIGHT };
+static const Vector2 SPAWN_LEFT = { 5.0f * TILE_SIZE, (GRID_ROWS - 2) * TILE_SIZE - PLAYER_HEIGHT };
+static const Vector2 SPAWN_RIGHT = { 34.0f * TILE_SIZE, (GRID_ROWS - 2) * TILE_SIZE - PLAYER_HEIGHT };
 static const Vector2 GOAL = { 3.0f * TILE_SIZE, 6.0f * TILE_SIZE };
 
 char level_tile_at(int col, int row) {
@@ -52,7 +53,8 @@ const char *level_row(int row) {
 }
 
 void level_init(Level *level) {
-    level->spawn = SPAWN;
+    level->spawn_left = SPAWN_LEFT;
+    level->spawn_right = SPAWN_RIGHT;
     level->goal = GOAL;
 }
 

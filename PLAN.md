@@ -31,8 +31,8 @@ green; build + tests must be green before merge.
       connected by short junction ladders (map lives in `level.c`, validated by tests)
 
 ## 3. Player spawns bottom-left and bottom-right
-- [ ] Give `Level` two spawns (`spawn_left`, `spawn_right`); goal stays on Kong's platform
-- [ ] Game alternates spawn side each respawn (deterministic, testable)
+- [x] Give `Level` two spawns (`spawn_left`, `spawn_right`); goal stays on Kong's platform
+- [x] Game alternates spawn side each respawn (deterministic, testable)
 
 ## 4. Kong throws barrels (both directions)
 - [x] Add `kong.c/.h` + `kong_draw.c`: boss drawn from the hero sprite (scaled,
